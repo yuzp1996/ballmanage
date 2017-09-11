@@ -48,6 +48,7 @@
 ###### 用户查询
 
 输入一个空格即可查询场馆预约情况，输入多个空格或其他字符则会被认定为非法字符，提示```Error: the booking is invalid```
+如果pkl文件中没有记录，则提示```There is no data```
 
 
 

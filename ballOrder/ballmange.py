@@ -4,8 +4,8 @@ import os
 import pickle
 import datetime
 import time
-import sys 
-reload(sys) 
+import sys
+reload(sys)
 sys.setdefaultencoding('utf8')
 
 class BadmintonVenueOrder(object):
@@ -13,7 +13,7 @@ class BadmintonVenueOrder(object):
         self.year = str(time.localtime()[0])
         self.nowday = str(time.localtime()[1])+str(time.localtime()[2])
         self.pattern = re.compile(r'^U([0-9]{3})\s+'+self.year+'\-(0[1-9]|1[0-2])\-(3[0-1]|2[0-9]|1[0-9]|0[1-9])\s(09|1[0-9]|2[0-1])\:00\~(09|1[0-9]|2[0-2])\:00\s([ABCD])(\sC){0,1}$')
-        self.pw = os.getcwd()+'\\' if os.name == "nt"  else os.getcwd+'\/'
+        self.pw = os.getcwd()+'\/' if os.name == "nt" else os.getcwd()+'/'
 
 
     def getdata(self,List):
@@ -104,12 +104,12 @@ class BadmintonVenueOrder(object):
             print "Error: the booking is invalid"
             return
 
-    #判断时间重叠   
+    #判断时间重叠
         timeList = [i for i in range(nowstart,nowend)]
         for j in samedayorder: #j是从数据库中取出来的
             jnowstart = int(j['timescale'][0:2])
             jnowend = int(j['timescale'][2:])
-            timerange = [i for i in range(jnowstart,jnowend)] 
+            timerange = [i for i in range(jnowstart,jnowend)]
             if len([val for val in timerange if val in timeList]) > 0:
                 print "Error: the booking conflicts with existing bookings! "
                 return
@@ -162,7 +162,6 @@ class BadmintonVenueOrder(object):
         StrC = u"场地: C\n"
         StrD = u"场地: D\n"
         Amoney,Bmoney,Cmoney,Dmoney = 0,0,0,0
-        print resultList
         resultList.sort(lambda a,b:int(a['date']+a['timescale'])-int(b['date']+b['timescale'])) #按时间排序
         for i in resultList:
             if i['status'] == "C":
@@ -171,16 +170,16 @@ class BadmintonVenueOrder(object):
                 tip = u""
             dataStr = "%s-%s-%s %s:00~%s:00 %s %s元\n"%(self.year,i['date'][0:2],i['date'][2:],i['timescale'][0:2],i['timescale'][2:],tip,i['money'])
             if i['venue'] == "A":
-                Amoney += int(i['money']) 
+                Amoney += int(i['money'])
                 StrA += dataStr
             elif i['venue'] == "B":
-                Bmoney += int(i['money']) 
+                Bmoney += int(i['money'])
                 StrB += dataStr
             elif i['venue'] == "C":
-                Cmoney += int(i['money']) 
+                Cmoney += int(i['money'])
                 StrC += dataStr
             elif i['venue'] == "D":
-                Dmoney += int(i['money']) 
+                Dmoney += int(i['money'])
                 StrD += dataStr
         print u"收入总汇 "
         print "---"
